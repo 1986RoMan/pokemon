@@ -1,25 +1,25 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import {PokemonsList} from "./components";
+import {Routes, Route,Navigate } from "react-router-dom"
+import {PokemonInfo} from "./components/PokemonInfo/PokemonInfo";
+import {MainLayout} from "./layouts/MainLayout";
+import {SearchPage} from "./pages/SearchPage";
+
 
 function App() {
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Routes>
+        <Route path={'/'} element={<MainLayout/>}>
+            <Route index element={<Navigate to={'pokemons'} />}/>
+            <Route path={'pokemons'} element={<PokemonsList/>}/>
+            <Route path={'pokemons/:id'} element={<PokemonInfo/>}/>
+            <Route path={'searching'} element={<SearchPage/>}/>
+        </Route>
+    </Routes>
+
+
   );
 }
 
