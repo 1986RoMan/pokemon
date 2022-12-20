@@ -9,7 +9,7 @@ const PokemonInfo:FC = () => {
     console.log(state.sprites.front_shiny)
     return (
         <div>
-            <div><h2>{state.name}</h2></div>
+            <div><h2>{state.name.toLocaleUpperCase()}</h2></div>
             <div><img style={{width:'200px'}} src={state.sprites.front_shiny} alt=""/>
                 <img style={{width:'200px'}}  src={state.sprites.back_shiny} alt=""/>
             </div>

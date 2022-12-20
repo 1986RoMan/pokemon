@@ -43,8 +43,10 @@
     margin-left: 300px;
 }
 .divFight{
-    position: fixed;
+    position: relative;
     background: yellow;
+    display: flex;
+    flex-wrap: wrap;
 }
 .win{
     background: #282c34;

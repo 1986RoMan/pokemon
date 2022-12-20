@@ -73,12 +73,14 @@ const [pokemonArray,setPokemonArray] = useState<IPokemonData[]>([]);
                                 setStan(false)
                             },4000)
                         }}>БІЙ</Button>
-                        {pokemonArray?.map(value => <div  style={{display:'inline-block',position:'relative'}}>{value.name}
-                    <img style={{width: '200px'}}
-                                      src={value.sprites.front_shiny} alt=""/>
-                    </div>
-                    )
-                         }
+                        <div style={{display:'flex',flexWrap:"wrap"}}>
+                            {pokemonArray?.map(value => <div>{value.name}
+                                <img style={{width: '200px'}}
+                                     src={value.sprites.front_shiny} alt=""/>
+                            </div>
+                        )
+                        }
+                        </div>
                         { stan &&
                             <Loading/>
                             }
@@ -91,7 +93,7 @@ const [pokemonArray,setPokemonArray] = useState<IPokemonData[]>([]);
                 }
                 }
                 >
-                    {winPokemon.name}
+                    {winPokemon.name.toLocaleUpperCase()}
                     <img style={{width: '300px'}}
                          src={winPokemon.sprites.front_shiny} alt="{winPokemon.name}"/>
                     <div><h1>!!!!!!!!!!!!WIN!!!!!!</h1></div>
