@@ -6,6 +6,7 @@ import {PokemonCard} from "../PokemonCard/PokemonCard";
 import css from './PokemonsList.module.css'
 import Loading from "../Loading/Loading";
 import {Button} from "../Button/Button";
+import {AiOutlineCloseSquare} from "react-icons/ai";
 
 
 
@@ -74,9 +75,13 @@ const [pokemonArray,setPokemonArray] = useState<IPokemonData[]>([]);
                             },4000)
                         }}>БІЙ</Button>
                         <div style={{display:'flex',flexWrap:"wrap"}}>
-                            {pokemonArray?.map(value => <div>{value.name}
+                            {pokemonArray?.map(value => <div
+                                >{value.name}
                                 <img style={{width: '200px'}}
                                      src={value.sprites.front_shiny} alt=""/>
+                                <AiOutlineCloseSquare style={{fontSize:'40px'}} onClick={()=>{
+                                    setPokemonArray(pokemonArray.filter(value1 => value1.id!==value.id))
+                                }} />
                             </div>
                         )
                         }

@@ -3,12 +3,13 @@ import {IPokemonData} from "../../interfaces/interfasePokemon";
 import css from './PokemonCard.module.css'
 import {Link} from "react-router-dom";
 
+
 interface IProps {
     pokemon: IPokemonData
     children?: any
-    setClassZminna:any
+    setClassZminna:(item:boolean)=>void
     setPokemonArray:any
-    pokemonArray:any
+    pokemonArray:IPokemonData[]
 }
 const PokemonCard: FC<IProps> = ({pokemon,setClassZminna,setPokemonArray,pokemonArray}) => {
 
