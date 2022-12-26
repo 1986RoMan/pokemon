@@ -15,14 +15,8 @@ export const Button = styled.button`
   justify-content: center;
   align-items: center;
   margin-left: 300px;
-  hover:pointer
+  hover:pointer;
+  
 `;
 
-function App() {
-    return (
-        <div>
-            <Button> Normal Button </Button>
-        </div>
-    );
-}
 

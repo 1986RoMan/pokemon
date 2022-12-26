@@ -1,4 +1,5 @@
 import React, {FC, useEffect, useState} from 'react';
+
 import {pokemonActions} from "../../redux/slices/pokemon.slice";
 import {useAppDispatch, useAppSelector} from "../../hooks/hook";
 import {IPokemonData} from "../../interfaces/interfasePokemon";
@@ -7,9 +8,7 @@ import css from './PokemonsList.module.css'
 import Loading from "../Loading/Loading";
 import {Button} from "../Button/Button";
 import {AiOutlineCloseSquare} from "react-icons/ai";
-
-
-
+import {Modal} from "../Modal/Modal";
 
 
 const PokemonsList:FC = () => {
@@ -17,9 +16,9 @@ const [pokemonArray,setPokemonArray] = useState<IPokemonData[]>([]);
 
     const [stan,setStan] = useState(false);
     const [winPokemon,setWinPokemon] = useState<IPokemonData>();
-    const [classZminna,setClassZminna] = useState(false);
+    const [modalActive,setModalactive] = useState<any>(true);
     const [state,setState] = useState<IPokemonData[]>([]);
-    const {pokemons,next,prev,pokemon} = useAppSelector(state => state.pokemonReducer);
+    const {pokemons,next,prev} = useAppSelector(state => state.pokemonReducer);
     const dispatch = useAppDispatch();
 
     useEffect(()=>{
@@ -59,29 +58,33 @@ const [pokemonArray,setPokemonArray] = useState<IPokemonData[]>([]);
             .reduce((partialSum, a) => partialSum + a, 0)===winer);
         setWinPokemon(filter)
     };
-
     return (
         <div className={'wer'} >
+
             <div className={ pokemonArray.length<1 ? css.exit : css.divFight}>
                 { !winPokemon
                               ?
 
                     <div>
-                        <Button   onClick={()=>{
+                        <Button disabled={pokemonArray.length<=1}  onClick={()=>{
+                            setModalactive(true)
                             setStan(true)
                             setTimeout(()=>{
                                 func()
                                 setStan(false)
                             },4000)
                         }}>БІЙ</Button>
-                        <div style={{display:'flex',flexWrap:"wrap"}}>
+                        <div style={{display:'flex',flexWrap:"wrap",position:'relative'}}>
                             {pokemonArray?.map(value => <div
                                 >{value.name}
                                 <img style={{width: '200px'}}
                                      src={value.sprites.front_shiny} alt=""/>
-                                <AiOutlineCloseSquare style={{fontSize:'40px'}} onClick={()=>{
-                                    setPokemonArray(pokemonArray.filter(value1 => value1.id!==value.id))
-                                }} />
+                                <div  style={{ marginTop: '-250px',position:'absolute',paddingTop:'35px'}}>
+                                    <AiOutlineCloseSquare
+                                    style={{fontSize: '40px'}} onClick={() => {
+                                    setPokemonArray(pokemonArray.filter(value1 => value1.id !== value.id))
+                                }}/>
+                                </div>
                             </div>
                         )
                         }
@@ -91,19 +94,13 @@ const [pokemonArray,setPokemonArray] = useState<IPokemonData[]>([]);
                             }
                     </div>
                     :
-                <div className={css.divWin}
-                onClick={()=>{
-                    document.location.reload()
-                    setPokemonArray([])
-                }
-                }
-                >
-                    {winPokemon.name.toLocaleUpperCase()}
-                    <img style={{width: '300px'}}
-                         src={winPokemon.sprites.front_shiny} alt="{winPokemon.name}"/>
-                    <div><h1>!!!!!!!!!!!!WIN!!!!!!</h1></div>
-                    <div><h2>Натисніть ТУТ щоб вибрати нових покепонів для боя</h2></div>
-                </div>
+                    <Modal active={modalActive} setActive={setModalactive}>
+                        {winPokemon?.name.toLocaleUpperCase()}
+                        <img style={{width: '300px'}}
+                             src={winPokemon?.sprites.front_shiny} alt="{winPokemon.name}"/>
+                        <div><h1>!!!!!!!!!!!!WIN!!!!!!</h1></div>
+                    </Modal>
+
                 }
 
             </div>
@@ -111,7 +108,6 @@ const [pokemonArray,setPokemonArray] = useState<IPokemonData[]>([]);
                     {
                        state.map(pokemon => <PokemonCard key={pokemon.id} pokemon={pokemon}
                                                          setPokemonArray={setPokemonArray}
-                                                         setClassZminna={setClassZminna}
                                                          pokemonArray={pokemonArray}
                        />)
                     }

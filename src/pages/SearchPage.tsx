@@ -1,4 +1,5 @@
 import React, {FC} from 'react';
+
 import {useAppDispatch, useAppSelector} from "../hooks/hook";
 
 const SearchPage:FC = () => {
