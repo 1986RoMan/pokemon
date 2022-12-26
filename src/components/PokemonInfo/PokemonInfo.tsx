@@ -1,12 +1,12 @@
 import React, {FC} from 'react';
 import {useLocation} from "react-router-dom";
+
 import {IPokemonData} from "../../interfaces/interfasePokemon";
 
 const PokemonInfo:FC = () => {
 
     const state = useLocation().state as IPokemonData;
 
-    console.log(state.sprites.front_shiny)
     return (
         <div>
             <div><h2>{state.name.toLocaleUpperCase()}</h2></div>

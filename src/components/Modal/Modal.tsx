@@ -1,10 +1,12 @@
 import React, {FC} from 'react';
 import './Modal.css'
+
 interface InterfaceProps {
     active:boolean,
     setActive:any,
-    children:any
+    children: any
 }
+
 const Modal: FC<InterfaceProps> = ({active, setActive,children}) => {
     return (
         <div className={active ? "modal active" : 'modal'} onClick={()=>{setActive(false)

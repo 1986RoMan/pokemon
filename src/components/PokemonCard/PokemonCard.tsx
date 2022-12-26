@@ -1,8 +1,8 @@
 import React, {FC} from 'react';
+import {Link} from "react-router-dom";
+
 import {IPokemonData} from "../../interfaces/interfasePokemon";
 import css from './PokemonCard.module.css'
-import {Link} from "react-router-dom";
-import {isDisabled} from "@testing-library/user-event/dist/utils";
 
 
 interface IProps {
