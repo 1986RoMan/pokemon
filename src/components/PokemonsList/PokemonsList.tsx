@@ -16,9 +16,9 @@ const [pokemonArray,setPokemonArray] = useState<IPokemonData[]>([]);
 
     const [stan,setStan] = useState(false);
     const [winPokemon,setWinPokemon] = useState<IPokemonData>();
-    const [modalActive,setModalactive] = useState<any>(true);
+    const [modalActive,setModalactive] = useState<boolean>(true);
     const [state,setState] = useState<IPokemonData[]>([]);
-    const {pokemons,next,prev} = useAppSelector(state => state.pokemonReducer);
+    const {pokemons,next,prev,errors} = useAppSelector(state => state.pokemonReducer);
     const dispatch = useAppDispatch();
 
     useEffect(()=>{
@@ -47,8 +47,9 @@ const [pokemonArray,setPokemonArray] = useState<IPokemonData[]>([]);
         dispatch(pokemonActions.allPokemons({offset:`${str1}`}))
     };
 
-           const sa = document.getElementsByClassName('wer')[0];
-    const func = () => {
+           const sa = document.getElementsByClassName('wer')[0] as HTMLDivElement;
+
+           const func = () => {
         const winer=pokemonArray.map((value,id) => value.stats.map(value1 => value1.base_stat)
             .reduce((partialSum, a) => partialSum + a, 0))
             .sort((a,b)=>            b-a
@@ -60,7 +61,7 @@ const [pokemonArray,setPokemonArray] = useState<IPokemonData[]>([]);
     };
     return (
         <div className={'wer'} >
-
+            {errors && <h1>{errors.message}</h1>}
             <div className={ pokemonArray.length<1 ? css.exit : css.divFight}>
                 { !winPokemon
                               ?
@@ -75,12 +76,12 @@ const [pokemonArray,setPokemonArray] = useState<IPokemonData[]>([]);
                             },4000)
                         }}>БІЙ</Button>
                         <div style={{display:'flex',flexWrap:"wrap",position:'relative'}}>
-                            {pokemonArray?.map(value => <div
+                            {pokemonArray?.map(value => <div key={value.id}
                                 >{value.name}
                                 <img style={{width: '200px'}}
                                      src={value.sprites.front_shiny} alt=""/>
                                 <div  style={{ marginTop: '-250px',position:'absolute',paddingTop:'35px'}}>
-                                    <AiOutlineCloseSquare
+                                    <AiOutlineCloseSquare className={pokemonArray.length===1 ? css.exit:''}
                                     style={{fontSize: '40px'}} onClick={() => {
                                     setPokemonArray(pokemonArray.filter(value1 => value1.id !== value.id))
                                 }}/>
@@ -105,7 +106,7 @@ const [pokemonArray,setPokemonArray] = useState<IPokemonData[]>([]);
 
             </div>
                 <div className={css.List}>
-                    {
+                    { pokemonArray?.length <=19 &&
                        state.map(pokemon => <PokemonCard key={pokemon.id} pokemon={pokemon}
                                                          setPokemonArray={setPokemonArray}
                                                          pokemonArray={pokemonArray}
@@ -116,6 +117,7 @@ const [pokemonArray,setPokemonArray] = useState<IPokemonData[]>([]);
                 <button disabled={prev===null} onClick={prevPage}>Попередня Сторінка</button>
                 <button onClick={nextPage}>Наступна сторінка</button>
             </div>
+
         </div>
     );
 };

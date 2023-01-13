@@ -3,7 +3,6 @@ import React, {FC} from 'react';
 import {useAppDispatch, useAppSelector} from "../hooks/hook";
 
 const SearchPage:FC = () => {
-
     const dispatch = useAppDispatch();
     const {pokemon} = useAppSelector(state => state.pokemonReducer);
     console.log(pokemon)
